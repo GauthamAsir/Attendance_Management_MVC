@@ -1,0 +1,147 @@
+﻿@model PresentationMVC.Models.SignUpModel
+
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <p style="color:white">
+        @ViewBag.Message
+    </p>
+
+    @Html.AntiForgeryToken()
+
+    <div>
+
+        <div class="col-md-4 col-xs-12 col-sm-4 col-sm-4">
+
+            <div class="int-box">
+
+                <div style="height: 120px"></div>
+
+                <h2 style="color: white; font-weight:bold;">Employee<br />Attendance & <br /> Leave Management</h2>
+
+                <img src="~/images/attendance.png" />
+
+            </div>
+
+        </div>
+
+        <div class="col-xs-1">
+
+        </div>
+
+        <div class="form-horizontal col-md-6 col-xs-10 col-sm-4 col-xs-offset-0 col-sm-offset-4 col-md-offset-2"
+             style="background-color: white; margin-top: 24px; margin-bottom: 24px; color: #022B3A;
+       background-color: white; border-radius: 20px; vertical-align: central">
+
+            <h2 style="color: #022B3A; font-weight:bold">Register</h2>
+
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group row">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.ContactNo, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.JobTitle, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.JobTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.JobTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-9">
+                    <input type="submit" value="Register" class="btn btn-primary" style="background-color: #022B3A" />
+                </div>
+            </div>
+
+            <br />
+
+            <br />
+
+            <p style="font-size:8pt">
+                Already have an account?
+                <br />
+                <a href="Login">Login Here</a>
+            </p>
+
+            <br />
+
+        </div>
+
+    </div>
+
+}
+

@@ -1,0 +1,92 @@
+﻿@model DataLayer.ProjectAttendanceDetails
+
+@{
+    ViewBag.Title = "Delete";
+    if (ViewBag.Role == "Admin")
+    {
+        Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+    }
+    else if (ViewBag.Role == "Manager")
+    {
+        Layout = "~/Views/Shared/_ManagerDashboard.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_UserDashboard.cshtml";
+    }
+}
+
+<h2>Delete</h2>
+
+<div>
+    <hr />
+
+    <div class="form-group card" style=" padding: 24px; elevation: below; width:fit-content; border-radius: 6px">
+
+        <h3> @ViewBag.Message</h3>
+
+        <br />
+        <br />
+
+        <dl class="dl-horizontal">
+            <dt>
+                <span class="display-header">
+                    @Html.DisplayNameFor(model => model.ProjectId)
+                </span>
+            </dt>
+
+            <dd>
+                <span class="display-content2">
+                    @Html.DisplayFor(model => model.ProjectId)
+                </span>
+            </dd>
+
+            <dt>
+                <span class="display-header">
+                    @Html.DisplayNameFor(model => model.DateOfRequest)
+                </span>
+            </dt>
+
+            <dd>
+                <span class="display-content2">
+                    @Html.DisplayFor(model => model.DateOfRequest)
+                </span>
+            </dd>
+
+            <dt>
+                <span class="display-header">
+                    @Html.DisplayNameFor(model => model.ProjectName)
+                </span>
+            </dt>
+
+            <dd>
+                <span class="display-content2">
+                    @Html.DisplayFor(model => model.ProjectName)
+                </span>
+            </dd>
+
+            <dt>
+                <span class="display-header">
+                    @Html.DisplayNameFor(model => model.AttendanceStatus)
+                </span>
+            </dt>
+
+            <dd>
+                <span class="display-content2">
+                    @Html.DisplayFor(model => model.AttendanceStatus)
+                </span>
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color display-content2 col-md-offset-3">
+                <input type="submit" value="Delete" class="btn btn-primary action-button" />
+            </div>
+        }
+    </div>
+    
+</div>

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<DataLayer.ProjectAttendanceDetails>
+
+@{
+    ViewBag.Title = "Attendance Requests";
+    if (ViewBag.Role == "Admin")
+    {
+        Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_ManagerDashboard.cshtml";
+    }
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.EmployeeId)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.ProjectId)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                Action
+            </span>
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </span>
+            </td>
+            <td>
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.ProjectId)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </span>
+            </td>
+            <td class="col-auto">
+                <input type="button" class="btn-primary btn-success display-content" style="color:white" id="accept" name="accept" value="Mark Present" onclick='window.location = "@Url.Action("Accept","ManagerAttendance",new {id=item.ProjectId,empid=item.EmployeeId,managerid=ViewBag.EmployeeId})";' />
+                <input type="button" class="btn-primary btn-danger display-content" style="color:white" id="reject" name="reject" value="Mark Absent" onclick='window.location = "@Url.Action("Reject","ManagerAttendance",new {id=item.ProjectId,empid=item.EmployeeId,managerid=ViewBag.EmployeeId})";' />
+            </td>
+        </tr>
+    }
+
+</table>

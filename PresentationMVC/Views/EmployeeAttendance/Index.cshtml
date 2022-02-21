@@ -1,0 +1,87 @@
+﻿@model IEnumerable<DataLayer.ProjectAttendanceDetails>
+
+@{
+    ViewBag.Title = "Index";
+    if (ViewBag.Role == "Admin")
+    {
+        Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+    }
+    else if (ViewBag.Role == "Manager")
+    {
+        Layout = "~/Views/Shared/_ManagerDashboard.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_UserDashboard.cshtml";
+    }
+}
+
+<h2 class="col-md-4 col-xs-3">Your Attendances</h2>
+
+<button type="button"
+        class="btn btn-primary action-button col-md-offset-6 col-md-2 col-xs-6"
+        onclick='window.location = "@Url.Action("Create", "EmployeeAttendance", new { id = ViewBag.EmployeeId })";'>
+    Add Attendance
+</button>
+
+<table class="table">
+    <tr>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.ProjectId)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.DateOfRequest)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.AttendanceStatus)
+            </span>
+        </th>
+        <th class="col-auto"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.ProjectId)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @item.DateOfRequest.ToString("dd-MM-yyyy")
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.AttendanceStatus)
+                </span>
+            </td>
+            <td class="col-auto">
+                <button type="button"
+                        style="background-color: orangered; color:white"
+                        class="btn btn-primary action-button col-md-2 col-xs-6"
+                        onclick='window.location = "@Url.Action("Delete", "EmployeeAttendance", new { id = item.ProjectId, projectid = item.ProjectId, empid = ViewBag.EmployeeId, status = item.AttendanceStatus })";'>
+                    <i style="margin-right:12px; color:white" class="fa fa-trash"></i>
+                    Delete
+                </button>
+            </td>
+        </tr>
+    }
+
+</table>

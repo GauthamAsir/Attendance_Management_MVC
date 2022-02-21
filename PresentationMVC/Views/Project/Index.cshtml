@@ -1,0 +1,107 @@
+﻿@model IEnumerable<DataLayer.ProjectDetail>
+
+@{
+    ViewBag.Title = "Projects List";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h2 class="col-md-2 col-xs-3">List of Projects</h2>
+
+<input id="searchBar" class="col-md-offset-2 col-md-2 col-xs-2" type="text" placeholder="Search" />
+
+<button id="searchBtn" type="button" style="margin-left: 12px"
+        class="btn btn-primary action-button col-md-offset-0 col-md-2 col-xs-6">
+    Search
+</button>
+
+<button type="button"
+        class="btn btn-primary action-button col-md-offset-2 col-md-2 col-xs-6"
+        onclick='window.location = "@Url.Action("Create", "Project")";'>
+    Create
+</button>
+
+<table class="table">
+    <tr>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.ProjectId)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </span>
+
+        </th>
+        @*<th class="col-auto">
+                <span class="display-header">
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </span>
+            </th>
+            <th class="col-auto">
+                <span class="display-header">
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </span>
+            </th>*@
+        <th>
+            <span class="display-header">
+                Action
+            </span>
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.ProjectId)
+                </span>
+
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </span>
+
+            </td>
+            @*<td class="col-auto">
+                    <span class="display-content">
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </span>
+
+                </td>
+                <td class="col-auto">
+                    <span class="display-content">
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </span>
+
+                </td>*@
+            <td class="col-auto">
+                <button type="button"
+                        class="btn btn-primary action-button col-md-2 col-xs-6"
+                        onclick='window.location = "@Url.Action("Details", "Project", new { id = item.ProjectId })";'>
+                    View Details
+                    <i style="margin-left:12px" class="fa fa-chevron-right"></i>
+                </button>
+                @*<span class="display-content">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ProjectId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ProjectId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ProjectId })
+                    </span>*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts {
+
+    <script>
+        $('#searchBtn').click(function () {
+            var searchText = $('#searchBar').val();
+            window.location = '@Url.Action("Index", "Project")?search=' + searchText;
+        })
+    </script>
+
+}

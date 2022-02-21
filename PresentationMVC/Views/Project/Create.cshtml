@@ -1,0 +1,119 @@
+﻿@model PresentationMVC.Models.ProjectDetailsModel
+
+@{
+    ViewBag.Title = "Add Project";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal row ext-box">
+        <br />
+        <br />
+        <div class="form-group card" style=" padding: 24px; elevation: below; width:fit-content; border-radius: 6px">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*<div class="form-group display-content2">
+                @Html.LabelFor(model => model.ProjectId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 display-content2">
+                    @Html.EditorFor(model => model.ProjectId, new { htmlAttributes = new { @class = "form-control display-content", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+            <div class="form-group display-content2">
+                @Html.LabelFor(model => model.ProjectName, htmlAttributes: new { @class = "control-label col-md-5 col-xs-12" })
+                <div class="col-md-7 col-xs-12 display-content2">
+                    @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @class = "form-control display-content col-md-7 col-xs-12" } })
+                    @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger col-md-12" })
+                </div>
+            </div>
+
+            <div class="form-group display-content2">
+                @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-5 col-xs-12" })
+                <div class="col-md-7 col-xs-12 display-content2">
+                    @Html.EditorFor(model => model.StartDate, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control display-content datepicker col-md-7 col-xs-12",
+                       placeholder = "Start Date",
+                       id = "start",
+                       @readonly = "true"
+                   }
+               })
+                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group display-content2">
+                @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-5 col-xs-12" })
+                <div class="col-md-7 col-xs-12 display-content2">
+                    @Html.EditorFor(model => model.EndDate, new
+                    {
+                   htmlAttributes = new
+                        {
+                            @class = "form-control display-content datepicker col-md-7 col-xs-12",
+                   id = "end",
+                   placeholder = "End Date",
+                   @readonly = "true"
+               }
+                    })
+                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9 col-xs-offset-2">
+                    <button type="submit"
+                            class="btn btn-primary action-button">
+                        <i style="margin-right:12px" class="fa fa-save"></i>
+                        Add Project
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+@section scripts
+{
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var d = new Date();
+            d.setMonth(d.getMonth() + 1);
+
+            $('#start').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(),
+                yearRange: "-60:+0",
+            });
+
+            $('#end').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true,
+                minDate: d,
+                yearRange: "-60:+0",
+            });
+
+            $('#start').change(function () {
+                var dateObject = $("#start").datepicker('getDate');
+                var d2 = $.datepicker.formatDate('dd/M/yy', dateObject);
+
+                $('#end').datepicker('option', 'minDate', d2);
+
+            });
+
+        });
+    </script>
+
+}

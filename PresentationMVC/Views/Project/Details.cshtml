@@ -1,0 +1,147 @@
+﻿@model PresentationMVC.Models.ProjectDetailsModel
+
+@{
+    ViewBag.Title = "Project Details";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<div style="margin-top: 10px">
+    <h2 class="col-md-4 col-xs-3">Project Details</h2>
+
+    <button type="button"
+            class="btn btn-primary action-button col-md-offset-3 col-md-2 col-xs-6"
+            onclick='window.location = "@Url.Action("Edit", "Project",  new { id = Model.ProjectId })";'>
+        <i style="margin-right: 12px" class="fa fa-edit"></i>
+        Edit
+    </button>
+
+    <button type="button" style="background-color: red;"
+            class="btn btn-primary action-button col-md-offset-1 col-md-2 col-xs-6"
+            onclick='window.location = "@Url.Action("Delete", "Project", new { id = Model.ProjectId })";'>
+        <i style="margin-right:12px" class="fa fa-trash-o"></i>
+        Delete
+    </button>
+</div>
+
+<br />
+<br />
+
+<div style="margin-top: 40px">
+
+
+
+    <div class="row">
+        <div class="row bg-color" style="width: 100%; height: 40px; margin: 0px; padding: 0px; border-top-left-radius: 4px; border-top-right-radius: 4px">
+            <div class="row" style="vertical-align: central; margin-top: 8px; margin-bottom: 8px">
+                <h3 style="color: white; width: 94%">@Model.ProjectName</h3>
+                <h3 style="color: white; width: 6%;">@Model.ProjectId</h3>
+            </div>
+        </div>
+        <div style="border-color: #212529; border-style: solid; border-width: 2px;
+                border-bottom-left-radius:4px; border-bottom-right-radius:4px; padding:12px">
+            <div class="col-md-6 col-xs-12" style="margin-top:10px">
+                <i class="fa fa-calendar" style="margin-right: 6px; font-size: 16px"></i>
+                <span class="display-content2">Start Date: @Model.StartDate.ToString("dd/MMM/yyyy")</span>
+            </div>
+            <div class="col-md-3 col-md-offset-3 col-xs-12" style="margin-top:10px">
+                <i class="fa fa-calendar" style="margin-right: 6px; font-size: 16px"></i>
+                <span class="display-content2">End Date: @Model.EndDate.ToString("dd/MMM/yyyy")</span>
+            </div>
+            <div class="col-md-12 col-xs-12" style="margin-top:10px">
+                <i class="fa fa-windows" style="margin-right: 6px; font-size: 16px"></i>
+                <span class="display-content2">Total No. of Employees Working: @ViewBag.EmployeeDetails.Count</span>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:20px">
+            
+            <div class="col-md-6 col-xs-12 row">
+                <h3>List of Employees</h3>
+            </div>
+            <div class="col-md-3 col-md-offset-3 col-xs-12">
+                <button type="button"
+                        class="btn btn-primary action-button"
+                        onclick='window.location = "@Url.Action("AddEmployeeToProject/" + Model.ProjectId, "Project")";'>
+                    <i style="margin-right:12px" class="fa fa-plus"></i>
+                    Assign Employees
+                </button>
+            </div>
+        </div>
+
+        <table class="table">
+            <tr>
+                <th class="col-auto">
+                    <span class="display-header">
+                        Employee ID
+                    </span>
+                </th>
+                <th class="col-auto">
+                    <span class="display-header">
+                        Employee Name
+                    </span>
+
+                </th>
+                <th class="col-auto">
+                    <span class="display-header">
+                        ContactNo
+                    </span>
+                </th>
+                <th class="col-auto">
+                    <span class="display-header">
+                        Email
+                    </span>
+                </th>
+                <th class="col-auto">
+                    <span class="display-header">
+                        Action
+                    </span>
+                </th>
+            </tr>
+
+            @foreach (DataLayer.EmployeeDetail item in ViewBag.EmployeeDetails)
+            {
+                <tr>
+                    <td class="col-auto">
+                        <span class="display-content">
+                            @Html.DisplayFor(modelItem => item.EmployeeId)
+                        </span>
+
+                    </td>
+                    <td class="col-auto">
+                        <span class="display-content">
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </span>
+
+                    </td>
+                    <td class="col-auto">
+                        <span class="display-content">
+                            @Html.DisplayFor(modelItem => item.ContactNo)
+                        </span>
+
+                    </td>
+                    <td class="col-auto">
+                        <span class="display-content">
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </span>
+
+                    </td>
+                    <td class="col-auto">
+                        <button type="button"
+                                class="btn btn-primary action-button col-md-2 col-xs-6"
+                                onclick='window.location = "@Url.Action("RemoveEmployeeFromProject", "Project", 
+                                                           new { id = item.EmployeeId, projectid = Model.ProjectId })";'>
+                            Remove
+                            <i style="margin-left:12px" class="fa fa-trash-o"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+            
+
+</table>
+
+    </div>
+
+
+
+</div>

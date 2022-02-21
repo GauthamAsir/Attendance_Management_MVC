@@ -1,0 +1,97 @@
+﻿@model IEnumerable<DataLayer.LeaveTransactionDetail>
+
+@{
+    ViewBag.Title = "Leave Requests";
+    if (ViewBag.Role == "Admin")
+    {
+        Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_ManagerDashboard.cshtml";
+    }
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.EmployeeId)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.DateOfRequest)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.StartDate)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.EndDate)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.Reason)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                Action
+            </span>
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @item.DateOfRequest.ToShortDateString()
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @item.StartDate.ToShortDateString()
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @item.EndDate.ToShortDateString()
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.Reason)
+                </span>
+            </td>
+            <td class="col-auto">
+                <input type="button" class="btn btn-primary" id="accept" name="accept" value="Accept Leave" onclick='window.location = "@Url.Action("UpdateLeaveStatus","ManagerLeave",new{mgrid=ViewBag.ManagerId,id=item.EmployeeId,Transid=item.TransactionId,TransStatus="Accepted"})";' />
+                <input type="button" class="btn btn-danger" id="reject" name="reject" value="Reject Leave" onclick='window.location = "@Url.Action("UpdateLeaveStatus","ManagerLeave",new{mgrid=ViewBag.ManagerId,id=item.EmployeeId,Transid=item.TransactionId,TransStatus="Rejected"})";' />
+            </td>
+        </tr>
+    }
+
+</table>
+

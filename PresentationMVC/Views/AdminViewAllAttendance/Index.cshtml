@@ -1,0 +1,123 @@
+﻿@model IEnumerable<DataLayer.sp_AdminViewAllAttendance_Result>
+
+@{
+    ViewBag.Title = "All Accepted Attendance";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h2 class="col-md-4 col-xs-3">@ViewBag.Title</h2>
+
+<input id="startDate" class="col-md-offset-1 col-md-2 col-xs-2" type="text" placeholder="From Date"
+       value="@ViewBag.StartDate" readonly="readonly" />
+
+<input id="endDate" class="col-md-offset-0 col-md-2 col-xs-2" style="margin-left:12px" type="text" placeholder="To Date"
+       value="@ViewBag.EndDate" readonly="readonly" />
+
+<button id="searchBtn" type="button" style="margin-left: 12px"
+        class="btn btn-primary action-button col-md-offset-0 col-md-2 col-xs-6">
+    Search
+</button>
+
+<table class="table">
+    <tr>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.EmployeeId)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.ProjectId)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.DateOfAttendance)
+            </span>
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="col-auto">
+                <span class="display-header">
+                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-header">
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-header">
+                    @Html.DisplayFor(modelItem => item.ProjectId)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-header">
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-header">
+                    @item.DateOfAttendance.ToString("dd/MM/yyyy")
+                </span>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+@section scripts
+{
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+
+        $('#searchBtn').click(function () {
+            var from = $('#startDate').val();
+            var to = $('#endDate').val();
+            window.location = '@Url.Action("Index", "AdminViewAllAttendance")?fromDate=' + from + '&toDate=' + to;
+        })
+
+        $(document).ready(function () {
+
+            $('#startDate').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0",
+            });
+
+            $('#endDate').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0",
+            });
+
+            $('#startDate').change(function () {
+                var dateObject = $("#startDate").datepicker('getDate');
+                var d2 = $.datepicker.formatDate('dd/M/yy', dateObject);
+
+                $('#endDate').datepicker('option', 'minDate', d2);
+
+            });
+
+        });
+    </script>
+
+}

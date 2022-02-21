@@ -1,0 +1,121 @@
+﻿@model DataLayer.EmployeeDetail
+
+@{
+    ViewBag.Title = "Add Employee";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <br />
+    <br />
+    <br />
+
+    <div class="form-group card" style=" padding: 24px; elevation: below; width:fit-content; border-radius: 6px">
+
+        <div class="form-horizontal" style="margin-right: 32px">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*<div class="form-group display-content2">
+            @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label col-md-5" })
+            <div class="col-md-7">
+                @Html.EditorFor(model => model.EmployeeId, new { htmlAttributes = new { @class = "form-control display-content" } })
+                @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+            <div class="form-group display-content2">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-offset-2" })
+                <div class="col-md-12 col-md-offset-1">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control display-content col-md-7" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger col-md-12" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group display-content2">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-offset-2" })
+                <div class="col-md-12 col-md-offset-1">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control display-content col-md-7" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger col-md-12" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group display-content2">
+                @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-offset-2" })
+                <div class="col-md-12 col-md-offset-1">
+                    @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control display-content col-md-7", type = "date" } })
+                    @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger col-md-12" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group display-content2">
+                @Html.LabelFor(model => model.ContactNo, htmlAttributes: new { @class = "control-label  col-md-offset-2" })
+                <div class="col-md-12 col-md-offset-1">
+                    @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control display-content col-md-7" } })
+                    @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger col-md-12" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group display-content2">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label  col-md-offset-2" })
+                <div class="col-md-12 col-md-offset-1">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control display-content col-md-7" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger col-md-12" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group display-content2">
+                @Html.LabelFor(model => model.JobTitle, htmlAttributes: new { @class = "control-label col-md-offset-2" })
+                <div class="col-md-12 col-md-offset-1">
+                    @Html.EditorFor(model => model.JobTitle, new { htmlAttributes = new { @class = "form-control display-content col-md-7" } })
+                    @Html.ValidationMessageFor(model => model.JobTitle, "", new { @class = "text-danger col-md-12" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group display-content2">
+                @Html.LabelFor(model => model.ManagerId, htmlAttributes: new { @class = "control-label col-md-offset-2" })
+                <div class="col-md-12 col-md-offset-1">
+                    @Html.DropDownListFor(model => model.ManagerId, (IEnumerable<SelectListItem>)ViewBag.Managers, "-Please select-", htmlAttributes: new { @class = "form-control display-content" })
+                    @Html.ValidationMessageFor(model => model.ManagerId, "", new { @class = "text-danger col-md-12" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group display-content2">
+                @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-offset-2" })
+                <div class="col-md-12 col-md-offset-1">
+                    @Html.DropDownListFor(model => model.RoleId, (IEnumerable<SelectListItem>)ViewBag.Roles, "-Please select-", htmlAttributes: new { @class = "form-control display-content" })
+                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger col-md-12" })
+                </div>
+            </div>
+
+            <br />
+            <br />
+
+            <div class="form-group display-content2">
+                <div class="col-md-offset-7">
+                    <input type="submit" value="@ViewBag.Title" class="btn btn-default action-button" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}

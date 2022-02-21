@@ -1,0 +1,1326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Alias="Self" Namespace="AttendanceManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012">
+        <EntityType Name="EmployeeDetails">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="FirstName" Nullable="false" MaxLength="25" Type="varchar" />
+          <Property Name="LastName" Nullable="false" MaxLength="25" Type="varchar" />
+          <Property Name="DateOfBirth" Nullable="false" Type="date" />
+          <Property Name="ContactNo" MaxLength="25" Type="varchar" />
+          <Property Name="Email" MaxLength="30" Type="varchar" />
+          <Property Name="JobTitle" MaxLength="30" Type="varchar" />
+          <Property Name="ManagerId" Type="int" />
+          <Property Name="RoleId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AttendanceManagement.dbo.LeaveDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LeaveDetails">
+          <Key>
+            <PropertyRef Name="NumberOfLeaves" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="NumberOfLeaves" Nullable="false" Type="int" />
+          <Property Name="LastRefreshedDate" Type="date" />
+        </EntityType>
+        <EntityType Name="LeaveTransaction">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="DateOfRequest" Nullable="false" Type="date" />
+          <Property Name="StartDate" Nullable="false" Type="date" />
+          <Property Name="EndDate" Nullable="false" Type="date" />
+          <Property Name="NoOfDays" Nullable="false" Type="int" />
+          <Property Name="TransactionStatus" MaxLength="10" Type="varchar" />
+          <Property Name="Reason" MaxLength="200" Type="varchar" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AttendanceManagement.dbo.LoginCredentials' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LoginCredentials">
+          <Key>
+            <PropertyRef Name="LoginPassword" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="LoginPassword" Nullable="false" MaxLength="130" Type="varchar" />
+        </EntityType>
+        <EntityType Name="ProjectAttendance">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="ProjectId" />
+            <PropertyRef Name="DateOfAttendance" />
+          </Key>
+          <Property Name="EmployeeId" Nullable="false" Type="int" />
+          <Property Name="ProjectId" Nullable="false" Type="int" />
+          <Property Name="DateOfAttendance" Nullable="false" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="AttendanceStatus" Type="int" />
+        </EntityType>
+        <EntityType Name="ProjectDetails">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="ProjectName" Nullable="false" MaxLength="25" Type="varchar" />
+          <Property Name="StartDate" Nullable="false" Type="date" />
+          <Property Name="EndDate" Nullable="false" Type="date" />
+        </EntityType>
+        <EntityType Name="RoleDetails">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="RoleName" MaxLength="20" Type="varchar" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Nullable="false" MaxLength="128" Type="nvarchar" />
+          <Property Name="principal_id" Nullable="false" Type="int" />
+          <Property Name="diagram_id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__EmployeeD__RoleI__276EDEB3">
+          <End Type="Self.RoleDetails" Multiplicity="0..1" Role="RoleDetails" />
+          <End Type="Self.EmployeeDetails" Multiplicity="*" Role="EmployeeDetails" />
+          <ReferentialConstraint>
+            <Principal Role="RoleDetails">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="EmployeeDetails">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LeaveDeta__Emplo__30F848ED">
+          <End Type="Self.EmployeeDetails" Multiplicity="0..1" Role="EmployeeDetails" />
+          <End Type="Self.LeaveDetails" Multiplicity="*" Role="LeaveDetails" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="LeaveDetails">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LeaveTran__Emplo__3A81B327">
+          <End Type="Self.EmployeeDetails" Multiplicity="0..1" Role="EmployeeDetails" />
+          <End Type="Self.LeaveTransaction" Multiplicity="*" Role="LeaveTransaction" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="LeaveTransaction">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoginCred__Emplo__078C1F06">
+          <End Type="Self.EmployeeDetails" Multiplicity="0..1" Role="EmployeeDetails" />
+          <End Type="Self.LoginCredentials" Multiplicity="*" Role="LoginCredentials" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="LoginCredentials">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProjectAt__Emplo__756D6ECB">
+          <End Type="Self.EmployeeDetails" Multiplicity="1" Role="EmployeeDetails" />
+          <End Type="Self.ProjectAttendance" Multiplicity="*" Role="ProjectAttendance" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="ProjectAttendance">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProjectAt__Proje__76619304">
+          <End Type="Self.ProjectDetails" Multiplicity="1" Role="ProjectDetails" />
+          <End Type="Self.ProjectAttendance" Multiplicity="*" Role="ProjectAttendance" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectDetails">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectAttendance">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" ReturnType="int" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_AddAttendance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="projectid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_AddEmpidandPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_AddEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="firstname" Type="varchar" Mode="In" />
+          <Parameter Name="lastname" Type="varchar" Mode="In" />
+          <Parameter Name="dob" Type="date" Mode="In" />
+          <Parameter Name="contact" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="job" Type="varchar" Mode="In" />
+          <Parameter Name="managerid" Type="int" Mode="In" />
+          <Parameter Name="role" Type="int" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+          <Parameter Name="id" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_addleaveeverymonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_AddProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="projectname" Type="varchar" Mode="In" />
+          <Parameter Name="startdate" Type="date" Mode="In" />
+          <Parameter Name="enddate" Type="date" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_AdminViewAllAttendance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="startdate" Type="date" Mode="In" />
+          <Parameter Name="enddate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="sp_AdminViewAllLeave" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_AdminViewPendingAttendanceRequest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_AdminViewPendingLeaveRequest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_AssignEmployees" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="projectid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_AssignProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="employeeid" Type="int" Mode="In" />
+          <Parameter Name="projectid" Type="int" Mode="In" />
+          <Parameter Name="startdate" Type="date" Mode="In" />
+          <Parameter Name="enddate" Type="date" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteAttendance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="projectid" Type="int" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_DeleteEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_DeleteLeaveRequest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="transactionid" Type="int" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_DeleteProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_EmployeeViewAttendance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="employeeid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_EmployeeViewLeave" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="employeeid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetDateForProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="projectid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetEmployeeDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetEmployeeDetailsForProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="projectid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetEmployeeInfoByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmployeeID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetEmployeeName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetLastRefreshedDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="employeeid" Type="int" Mode="In" />
+          <Parameter Name="lastdate" Type="date" Mode="InOut" />
+        </Function>
+        <Function Name="sp_GetManagerName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetProjectName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetProjectOfEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetRemainingLeave" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="employeeid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_IsAttendanceMarked" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="projid" Type="int" Mode="In" />
+          <Parameter Name="date" Type="date" Mode="In" />
+          <Parameter Name="status" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+          <Parameter Name="roleid" Type="int" Mode="InOut" />
+          <Parameter Name="empName" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="sp_ManagerViewPendingAttendanceRequest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="managerid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ManagerViewPendingLeaveRequest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="managerid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_RemoveEmployeeFromAssignedProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="employeeid" Type="int" Mode="In" />
+          <Parameter Name="projectid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_RequestLeave" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="startDate" Type="date" Mode="In" />
+          <Parameter Name="endDate" Type="date" Mode="In" />
+          <Parameter Name="noofdays" Type="int" Mode="In" />
+          <Parameter Name="reason" Type="varchar" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_SearchEmployeeDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="search" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdateAttendance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="projectid" Type="int" Mode="In" />
+          <Parameter Name="status" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdateEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="firstname" Type="varchar" Mode="In" />
+          <Parameter Name="lastname" Type="varchar" Mode="In" />
+          <Parameter Name="dob" Type="date" Mode="In" />
+          <Parameter Name="contact" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="job" Type="varchar" Mode="In" />
+          <Parameter Name="managerid" Type="int" Mode="In" />
+          <Parameter Name="role" Type="int" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_UpdateLeaveStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="transid" Type="int" Mode="In" />
+          <Parameter Name="status" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdateProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="projectname" Type="varchar" Mode="In" />
+          <Parameter Name="startdate" Type="date" Mode="In" />
+          <Parameter Name="enddate" Type="date" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_UpdateRequestLeave" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="transactionid" Type="int" Mode="In" />
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="startDate" Type="date" Mode="In" />
+          <Parameter Name="endDate" Type="date" Mode="In" />
+          <Parameter Name="noofdays" Type="int" Mode="In" />
+          <Parameter Name="reason" Type="varchar" Mode="In" />
+          <Parameter Name="success" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="AttendanceManagementModelStoreContainer">
+          <EntitySet Name="EmployeeDetails" EntityType="Self.EmployeeDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeaveTransaction" EntityType="Self.LeaveTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectAttendance" EntityType="Self.ProjectAttendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectDetails" EntityType="Self.ProjectDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleDetails" EntityType="Self.RoleDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeaveDetails" EntityType="Self.LeaveDetails" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LeaveDetails].[EmployeeId] AS [EmployeeId], 
+    [LeaveDetails].[NumberOfLeaves] AS [NumberOfLeaves], 
+    [LeaveDetails].[LastRefreshedDate] AS [LastRefreshedDate]
+    FROM [dbo].[LeaveDetails] AS [LeaveDetails]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="LoginCredentials" EntityType="Self.LoginCredentials" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LoginCredentials].[EmployeeId] AS [EmployeeId], 
+    [LoginCredentials].[LoginPassword] AS [LoginPassword]
+    FROM [dbo].[LoginCredentials] AS [LoginCredentials]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__EmployeeD__RoleI__276EDEB3" Association="Self.FK__EmployeeD__RoleI__276EDEB3">
+            <End EntitySet="RoleDetails" Role="RoleDetails" />
+            <End EntitySet="EmployeeDetails" Role="EmployeeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LeaveDeta__Emplo__30F848ED" Association="Self.FK__LeaveDeta__Emplo__30F848ED">
+            <End EntitySet="EmployeeDetails" Role="EmployeeDetails" />
+            <End EntitySet="LeaveDetails" Role="LeaveDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LeaveTran__Emplo__3A81B327" Association="Self.FK__LeaveTran__Emplo__3A81B327">
+            <End EntitySet="EmployeeDetails" Role="EmployeeDetails" />
+            <End EntitySet="LeaveTransaction" Role="LeaveTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoginCred__Emplo__078C1F06" Association="Self.FK__LoginCred__Emplo__078C1F06">
+            <End EntitySet="EmployeeDetails" Role="EmployeeDetails" />
+            <End EntitySet="LoginCredentials" Role="LoginCredentials" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProjectAt__Emplo__756D6ECB" Association="Self.FK__ProjectAt__Emplo__756D6ECB">
+            <End EntitySet="EmployeeDetails" Role="EmployeeDetails" />
+            <End EntitySet="ProjectAttendance" Role="ProjectAttendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProjectAt__Proje__76619304" Association="Self.FK__ProjectAt__Proje__76619304">
+            <End EntitySet="ProjectDetails" Role="ProjectDetails" />
+            <End EntitySet="ProjectAttendance" Role="ProjectAttendance" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AttendanceManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AttendanceManagementEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="sp_AddAttendance">
+            <Parameter Name="empid" Type="Int32" Mode="In" />
+            <Parameter Name="projectid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AddEmpidandPassword">
+            <Parameter Name="empid" Type="Int32" Mode="In" />
+            <Parameter Name="password" Type="String" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AddEmployee">
+            <Parameter Name="firstname" Type="String" Mode="In" />
+            <Parameter Name="lastname" Type="String" Mode="In" />
+            <Parameter Name="dob" Type="DateTime" Mode="In" />
+            <Parameter Name="contact" Type="String" Mode="In" />
+            <Parameter Name="email" Type="String" Mode="In" />
+            <Parameter Name="job" Type="String" Mode="In" />
+            <Parameter Name="managerid" Type="Int32" Mode="In" />
+            <Parameter Name="role" Type="Int32" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+            <Parameter Name="id" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_addleaveeverymonth">
+          <Parameter Name="empid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AddProject">
+            <Parameter Name="projectname" Type="String" Mode="In" />
+            <Parameter Name="startdate" Type="DateTime" Mode="In" />
+            <Parameter Name="enddate" Type="DateTime" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AdminViewAllAttendance" ReturnType="Collection(AttendanceManagementModel.sp_AdminViewAllAttendance_Result)">
+            <Parameter Name="startdate" Type="DateTime" Mode="In" />
+            <Parameter Name="enddate" Type="DateTime" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AdminViewAllLeave" ReturnType="Collection(AttendanceManagementModel.sp_AdminViewAllLeave_Result)" />
+          <FunctionImport Name="sp_AdminViewPendingAttendanceRequest" ReturnType="Collection(AttendanceManagementModel.sp_AdminViewPendingAttendanceRequest_Result)" />
+          <FunctionImport Name="sp_AdminViewPendingLeaveRequest" ReturnType="Collection(AttendanceManagementModel.sp_AdminViewPendingLeaveRequest_Result)" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Type="String" Mode="In" />
+            <Parameter Name="owner_id" Type="Int32" Mode="In" />
+            <Parameter Name="version" Type="Int32" Mode="In" />
+            <Parameter Name="definition" Type="Binary" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AssignEmployees" ReturnType="Collection(AttendanceManagementModel.sp_AssignEmployees_Result)">
+          <Parameter Name="projectid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AssignProject">
+            <Parameter Name="employeeid" Type="Int32" Mode="In" />
+            <Parameter Name="projectid" Type="Int32" Mode="In" />
+            <Parameter Name="startdate" Type="DateTime" Mode="In" />
+            <Parameter Name="enddate" Type="DateTime" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Type="String" Mode="In" />
+            <Parameter Name="owner_id" Type="Int32" Mode="In" />
+            <Parameter Name="version" Type="Int32" Mode="In" />
+            <Parameter Name="definition" Type="Binary" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteAttendance">
+            <Parameter Name="empid" Type="Int32" Mode="In" />
+            <Parameter Name="projectid" Type="Int32" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteEmployee">
+            <Parameter Name="id" Type="Int32" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteLeaveRequest">
+            <Parameter Name="transactionid" Type="Int32" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteProject">
+            <Parameter Name="id" Type="Int32" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Type="String" Mode="In" />
+            <Parameter Name="owner_id" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_EmployeeViewAttendance" ReturnType="Collection(AttendanceManagementModel.sp_EmployeeViewAttendance_Result)">
+          <Parameter Name="employeeid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_EmployeeViewLeave" ReturnType="Collection(AttendanceManagementModel.sp_EmployeeViewLeave_Result)">
+          <Parameter Name="employeeid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetDateForProject" ReturnType="Collection(AttendanceManagementModel.sp_GetDateForProject_Result)">
+          <Parameter Name="projectid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetEmployeeDetails" ReturnType="Collection(AttendanceManagementModel.sp_GetEmployeeDetails_Result)" />
+          <FunctionImport Name="sp_GetEmployeeDetailsForProject" ReturnType="Collection(AttendanceManagementModel.sp_GetEmployeeDetailsForProject_Result)">
+          <Parameter Name="projectid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetEmployeeInfoByID" ReturnType="Collection(AttendanceManagementModel.sp_GetEmployeeInfoByID_Result)">
+          <Parameter Name="EmployeeID" Type="String" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetEmployeeName" ReturnType="Collection(AttendanceManagementModel.sp_GetEmployeeName_Result)" />
+          <FunctionImport Name="sp_GetLastRefreshedDate">
+            <Parameter Name="employeeid" Type="Int32" Mode="In" />
+            <Parameter Name="lastdate" Type="DateTime" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetManagerName" ReturnType="Collection(AttendanceManagementModel.sp_GetManagerName_Result)" />
+          <FunctionImport Name="sp_GetProjectName" ReturnType="Collection(AttendanceManagementModel.sp_GetProjectName_Result)" />
+          <FunctionImport Name="sp_GetProjectOfEmployee" ReturnType="Collection(AttendanceManagementModel.sp_GetProjectOfEmployee_Result)">
+          <Parameter Name="empid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetRemainingLeave" ReturnType="Collection(Int32)">
+          <Parameter Name="employeeid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetRole" ReturnType="Collection(AttendanceManagementModel.sp_GetRole_Result)" />
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(AttendanceManagementModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Type="String" Mode="In" />
+            <Parameter Name="owner_id" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(AttendanceManagementModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Type="String" Mode="In" />
+            <Parameter Name="owner_id" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_login">
+            <Parameter Name="empid" Type="Int32" Mode="In" />
+            <Parameter Name="password" Type="String" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+            <Parameter Name="roleid" Type="Int32" Mode="InOut" />
+            <Parameter Name="empName" Type="String" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ManagerViewPendingAttendanceRequest" ReturnType="Collection(AttendanceManagementModel.sp_ManagerViewPendingAttendanceRequest_Result)">
+          <Parameter Name="managerid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ManagerViewPendingLeaveRequest" ReturnType="Collection(AttendanceManagementModel.sp_ManagerViewPendingLeaveRequest_Result)">
+          <Parameter Name="managerid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_RemoveEmployeeFromAssignedProject">
+            <Parameter Name="employeeid" Type="Int32" Mode="In" />
+            <Parameter Name="projectid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Type="String" Mode="In" />
+            <Parameter Name="owner_id" Type="Int32" Mode="In" />
+            <Parameter Name="new_diagramname" Type="String" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_RequestLeave">
+            <Parameter Name="empid" Type="Int32" Mode="In" />
+            <Parameter Name="startDate" Type="DateTime" Mode="In" />
+            <Parameter Name="endDate" Type="DateTime" Mode="In" />
+            <Parameter Name="noofdays" Type="Int32" Mode="In" />
+            <Parameter Name="reason" Type="String" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SearchEmployeeDetails" ReturnType="Collection(AttendanceManagementModel.sp_SearchEmployeeDetails_Result)">
+          <Parameter Name="search" Type="String" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateAttendance">
+            <Parameter Name="empid" Type="Int32" Mode="In" />
+            <Parameter Name="projectid" Type="Int32" Mode="In" />
+            <Parameter Name="status" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateEmployee">
+            <Parameter Name="id" Type="Int32" Mode="In" />
+            <Parameter Name="firstname" Type="String" Mode="In" />
+            <Parameter Name="lastname" Type="String" Mode="In" />
+            <Parameter Name="dob" Type="DateTime" Mode="In" />
+            <Parameter Name="contact" Type="String" Mode="In" />
+            <Parameter Name="email" Type="String" Mode="In" />
+            <Parameter Name="job" Type="String" Mode="In" />
+            <Parameter Name="managerid" Type="Int32" Mode="In" />
+            <Parameter Name="role" Type="Int32" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateLeaveStatus">
+            <Parameter Name="transid" Type="Int32" Mode="In" />
+            <Parameter Name="status" Type="String" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateProject">
+            <Parameter Name="id" Type="Int32" Mode="In" />
+            <Parameter Name="projectname" Type="String" Mode="In" />
+            <Parameter Name="startdate" Type="DateTime" Mode="In" />
+            <Parameter Name="enddate" Type="DateTime" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateRequestLeave">
+            <Parameter Name="transactionid" Type="Int32" Mode="In" />
+            <Parameter Name="empid" Type="Int32" Mode="In" />
+            <Parameter Name="startDate" Type="DateTime" Mode="In" />
+            <Parameter Name="endDate" Type="DateTime" Mode="In" />
+            <Parameter Name="noofdays" Type="Int32" Mode="In" />
+            <Parameter Name="reason" Type="String" Mode="In" />
+            <Parameter Name="success" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="EmployeeDetails" EntityType="AttendanceManagementModel.EmployeeDetail" />
+          <EntitySet Name="LeaveTransactions" EntityType="AttendanceManagementModel.LeaveTransaction" />
+          <EntitySet Name="ProjectAttendances" EntityType="AttendanceManagementModel.ProjectAttendance" />
+          <EntitySet Name="ProjectDetails" EntityType="AttendanceManagementModel.ProjectDetail" />
+          <EntitySet Name="RoleDetails" EntityType="AttendanceManagementModel.RoleDetail" />
+          <EntitySet Name="sysdiagrams" EntityType="AttendanceManagementModel.sysdiagram" />
+          <EntitySet Name="LeaveDetails" EntityType="AttendanceManagementModel.LeaveDetail" />
+          <EntitySet Name="LoginCredentials" EntityType="AttendanceManagementModel.LoginCredential" />
+          <AssociationSet Name="FK__EmployeeD__RoleI__276EDEB3" Association="AttendanceManagementModel.FK__EmployeeD__RoleI__276EDEB3">
+            <End Role="RoleDetail" EntitySet="RoleDetails" />
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LeaveDeta__Emplo__30F848ED" Association="AttendanceManagementModel.FK__LeaveDeta__Emplo__30F848ED">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="LeaveDetail" EntitySet="LeaveDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LeaveTran__Emplo__3A81B327" Association="AttendanceManagementModel.FK__LeaveTran__Emplo__3A81B327">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="LeaveTransaction" EntitySet="LeaveTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoginCred__Emplo__32E0915F" Association="AttendanceManagementModel.FK__LoginCred__Emplo__32E0915F">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="LoginCredential" EntitySet="LoginCredentials" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProjectAt__Emplo__55009F39" Association="AttendanceManagementModel.FK__ProjectAt__Emplo__55009F39">
+            <End Role="EmployeeDetail" EntitySet="EmployeeDetails" />
+            <End Role="ProjectAttendance" EntitySet="ProjectAttendances" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProjectAt__Proje__55F4C372" Association="AttendanceManagementModel.FK__ProjectAt__Proje__55F4C372">
+            <End Role="ProjectDetail" EntitySet="ProjectDetails" />
+            <End Role="ProjectAttendance" EntitySet="ProjectAttendances" />
+          </AssociationSet>
+          <FunctionImport Name="sp_GetDateForProject1" ReturnType="Collection(AttendanceManagementModel.sp_GetProjectOfEmployee_Result)">
+          <Parameter Name="projectid" Type="Int32" Mode="In" />
+          </FunctionImport>
+          <FunctionImport Name="sp_IsAttendanceMarked">
+            <Parameter Name="empid" Type="Int32" Mode="In" />
+            <Parameter Name="projid" Type="Int32" Mode="In" />
+            <Parameter Name="date" Type="DateTime" Mode="In" />
+            <Parameter Name="status" Type="Int32" Mode="InOut" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_AdminViewAllAttendance_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="51" />
+          <Property Type="Int32" Name="ProjectId" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="25" />
+          <Property Type="DateTime" Name="DateOfAttendance" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_AdminViewAllLeave_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="true" />
+          <Property Type="String" Name="Employee_Name" Nullable="false" MaxLength="51" />
+          <Property Type="DateTime" Name="Start_Date" Nullable="true" />
+          <Property Type="DateTime" Name="End_Date" Nullable="true" />
+          <Property Type="Int32" Name="NoOfDays" Nullable="false" />
+          <Property Type="String" Name="Reason" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="sp_AdminViewPendingAttendanceRequest_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="51" />
+          <Property Type="Int32" Name="ProjectId" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="25" />
+        </ComplexType>
+        <ComplexType Name="sp_AdminViewPendingLeaveRequest_Result">
+          <Property Type="Int32" Name="TransactionId" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="true" />
+          <Property Type="String" Name="Employee_Name" Nullable="false" MaxLength="51" />
+          <Property Type="DateTime" Name="Date_of_Request" Nullable="true" />
+          <Property Type="DateTime" Name="Start_Date" Nullable="true" />
+          <Property Type="DateTime" Name="End_Date" Nullable="true" />
+          <Property Type="Int32" Name="NoOfDays" Nullable="false" />
+          <Property Type="String" Name="Reason" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="sp_AssignEmployees_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="51" />
+          <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_EmployeeViewAttendance_Result">
+          <Property Type="Int32" Name="ProjectId" Nullable="false" />
+          <Property Type="DateTime" Name="DateOfRequest" Nullable="true" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="AttendanceStatus" Nullable="true" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="sp_EmployeeViewLeave_Result">
+          <Property Type="Int32" Name="TransactionId" Nullable="false" />
+          <Property Type="DateTime" Name="DateOfRequest" Nullable="false" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="EndDate" Nullable="false" />
+          <Property Type="String" Name="TransactionStatus" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Reason" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="sp_GetDateForProject_Result">
+          <Property Type="DateTime" Name="StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="EndDate" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="25" />
+        </ComplexType>
+        <ComplexType Name="sp_GetEmployeeDetails_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="25" />
+          <Property Type="DateTime" Name="DateOfBirth" Nullable="false" />
+          <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="ManagerId" Nullable="true" />
+          <Property Type="Int32" Name="RoleId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetEmployeeDetailsForProject_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="51" />
+          <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_GetEmployeeInfoByID_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="25" />
+          <Property Type="DateTime" Name="DateOfBirth" Nullable="false" />
+          <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="ManagerId" Nullable="true" />
+          <Property Type="Int32" Name="RoleId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetEmployeeName_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="Employee_Name" Nullable="false" MaxLength="51" />
+        </ComplexType>
+        <ComplexType Name="sp_GetManagerName_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="25" />
+        </ComplexType>
+        <ComplexType Name="sp_GetProjectName_Result">
+          <Property Type="Int32" Name="ProjectId" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="25" />
+        </ComplexType>
+        <ComplexType Name="sp_GetProjectOfEmployee_Result">
+          <Property Type="Int32" Name="ProjectId" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="25" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="EndDate" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_GetRole_Result">
+          <Property Type="Int32" Name="RoleId" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_ManagerViewPendingAttendanceRequest_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="EmployeeName" Nullable="false" MaxLength="51" />
+          <Property Type="Int32" Name="ProjectId" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="false" MaxLength="25" />
+        </ComplexType>
+        <ComplexType Name="sp_ManagerViewPendingLeaveRequest_Result">
+          <Property Type="Int32" Name="TransactionId" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="true" />
+          <Property Type="String" Name="Employee_Name" Nullable="false" MaxLength="51" />
+          <Property Type="DateTime" Name="Date_of_Request" Nullable="true" />
+          <Property Type="DateTime" Name="Start_Date" Nullable="true" />
+          <Property Type="DateTime" Name="End_Date" Nullable="true" />
+          <Property Type="Int32" Name="NoOfDays" Nullable="false" />
+          <Property Type="String" Name="Reason" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="sp_SearchEmployeeDetails_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="25" />
+          <Property Type="DateTime" Name="DateOfBirth" Nullable="false" />
+          <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="ManagerId" Nullable="true" />
+          <Property Type="Int32" Name="RoleId" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="EmployeeDetail">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ContactNo" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="JobTitle" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ManagerId" Type="Int32" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="RoleDetail" Relationship="AttendanceManagementModel.FK__EmployeeD__RoleI__276EDEB3" FromRole="EmployeeDetail" ToRole="RoleDetail" />
+          <NavigationProperty Name="LeaveDetails" Relationship="AttendanceManagementModel.FK__LeaveDeta__Emplo__30F848ED" FromRole="EmployeeDetail" ToRole="LeaveDetail" />
+          <NavigationProperty Name="LeaveTransactions" Relationship="AttendanceManagementModel.FK__LeaveTran__Emplo__3A81B327" FromRole="EmployeeDetail" ToRole="LeaveTransaction" />
+          <NavigationProperty Name="LoginCredentials" Relationship="AttendanceManagementModel.FK__LoginCred__Emplo__32E0915F" FromRole="EmployeeDetail" ToRole="LoginCredential" />
+          <NavigationProperty Name="ProjectAttendances" Relationship="AttendanceManagementModel.FK__ProjectAt__Emplo__55009F39" FromRole="EmployeeDetail" ToRole="ProjectAttendance" />
+        </EntityType>
+        <EntityType Name="LeaveTransaction">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="DateOfRequest" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NoOfDays" Type="Int32" Nullable="false" />
+          <Property Name="TransactionStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Reason" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="AttendanceManagementModel.FK__LeaveTran__Emplo__3A81B327" FromRole="LeaveTransaction" ToRole="EmployeeDetail" />
+        </EntityType>
+        <EntityType Name="ProjectAttendance">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="ProjectId" />
+            <PropertyRef Name="DateOfAttendance" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="DateOfAttendance" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="AttendanceStatus" Type="Int32" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="AttendanceManagementModel.FK__ProjectAt__Emplo__55009F39" FromRole="ProjectAttendance" ToRole="EmployeeDetail" />
+          <NavigationProperty Name="ProjectDetail" Relationship="AttendanceManagementModel.FK__ProjectAt__Proje__55F4C372" FromRole="ProjectAttendance" ToRole="ProjectDetail" />
+        </EntityType>
+        <EntityType Name="ProjectDetail">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="ProjectAttendances" Relationship="AttendanceManagementModel.FK__ProjectAt__Proje__55F4C372" FromRole="ProjectDetail" ToRole="ProjectAttendance" />
+        </EntityType>
+        <EntityType Name="RoleDetail">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EmployeeDetails" Relationship="AttendanceManagementModel.FK__EmployeeD__RoleI__276EDEB3" FromRole="RoleDetail" ToRole="EmployeeDetail" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="LeaveDetail">
+          <Key>
+            <PropertyRef Name="NumberOfLeaves" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="NumberOfLeaves" Type="Int32" Nullable="false" />
+          <Property Name="LastRefreshedDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="AttendanceManagementModel.FK__LeaveDeta__Emplo__30F848ED" FromRole="LeaveDetail" ToRole="EmployeeDetail" />
+        </EntityType>
+        <EntityType Name="LoginCredential">
+          <Key>
+            <PropertyRef Name="LoginPassword" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="LoginPassword" Nullable="false" MaxLength="130" FixedLength="false" Type="String" Unicode="false" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="AttendanceManagementModel.FK__LoginCred__Emplo__32E0915F" FromRole="LoginCredential" ToRole="EmployeeDetail" />
+        </EntityType>
+        <Association Name="FK__EmployeeD__RoleI__276EDEB3">
+          <End Type="AttendanceManagementModel.RoleDetail" Role="RoleDetail" Multiplicity="0..1" />
+          <End Type="AttendanceManagementModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoleDetail">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="EmployeeDetail">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LeaveDeta__Emplo__30F848ED">
+          <End Type="AttendanceManagementModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
+          <End Type="AttendanceManagementModel.LeaveDetail" Role="LeaveDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="LeaveDetail">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LeaveTran__Emplo__3A81B327">
+          <End Type="AttendanceManagementModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
+          <End Type="AttendanceManagementModel.LeaveTransaction" Role="LeaveTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="LeaveTransaction">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LoginCred__Emplo__32E0915F">
+          <End Type="AttendanceManagementModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="0..1" />
+          <End Type="AttendanceManagementModel.LoginCredential" Role="LoginCredential" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="LoginCredential">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProjectAt__Emplo__55009F39">
+          <End Type="AttendanceManagementModel.EmployeeDetail" Role="EmployeeDetail" Multiplicity="1" />
+          <End Type="AttendanceManagementModel.ProjectAttendance" Role="ProjectAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetail">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="ProjectAttendance">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProjectAt__Proje__55F4C372">
+          <End Type="AttendanceManagementModel.ProjectDetail" Role="ProjectDetail" Multiplicity="1" />
+          <End Type="AttendanceManagementModel.ProjectAttendance" Role="ProjectAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectDetail">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectAttendance">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AttendanceManagementModelStoreContainer" CdmEntityContainer="AttendanceManagementEntities">
+          <FunctionImportMapping FunctionImportName="sp_AddAttendance" FunctionName="AttendanceManagementModel.Store.sp_AddAttendance" />
+          <FunctionImportMapping FunctionImportName="sp_AddEmpidandPassword" FunctionName="AttendanceManagementModel.Store.sp_AddEmpidandPassword" />
+          <FunctionImportMapping FunctionImportName="sp_AddEmployee" FunctionName="AttendanceManagementModel.Store.sp_AddEmployee" />
+          <FunctionImportMapping FunctionImportName="sp_addleaveeverymonth" FunctionName="AttendanceManagementModel.Store.sp_addleaveeverymonth" />
+          <FunctionImportMapping FunctionImportName="sp_AddProject" FunctionName="AttendanceManagementModel.Store.sp_AddProject" />
+          <FunctionImportMapping FunctionImportName="sp_AdminViewAllAttendance" FunctionName="AttendanceManagementModel.Store.sp_AdminViewAllAttendance">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_AdminViewAllAttendance_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="DateOfAttendance" ColumnName="DateOfAttendance" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_AdminViewAllLeave" FunctionName="AttendanceManagementModel.Store.sp_AdminViewAllLeave">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_AdminViewAllLeave_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Employee_Name" ColumnName="Employee Name" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End Date" />
+                <ScalarProperty Name="NoOfDays" ColumnName="NoOfDays" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_AdminViewPendingAttendanceRequest" FunctionName="AttendanceManagementModel.Store.sp_AdminViewPendingAttendanceRequest">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_AdminViewPendingAttendanceRequest_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_AdminViewPendingLeaveRequest" FunctionName="AttendanceManagementModel.Store.sp_AdminViewPendingLeaveRequest">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_AdminViewPendingLeaveRequest_Result">
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Employee_Name" ColumnName="Employee Name" />
+                <ScalarProperty Name="Date_of_Request" ColumnName="Date of Request" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End Date" />
+                <ScalarProperty Name="NoOfDays" ColumnName="NoOfDays" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="AttendanceManagementModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_AssignEmployees" FunctionName="AttendanceManagementModel.Store.sp_AssignEmployees">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_AssignEmployees_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_AssignProject" FunctionName="AttendanceManagementModel.Store.sp_AssignProject" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="AttendanceManagementModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_DeleteAttendance" FunctionName="AttendanceManagementModel.Store.sp_DeleteAttendance" />
+          <FunctionImportMapping FunctionImportName="sp_DeleteEmployee" FunctionName="AttendanceManagementModel.Store.sp_DeleteEmployee" />
+          <FunctionImportMapping FunctionImportName="sp_DeleteLeaveRequest" FunctionName="AttendanceManagementModel.Store.sp_DeleteLeaveRequest" />
+          <FunctionImportMapping FunctionImportName="sp_DeleteProject" FunctionName="AttendanceManagementModel.Store.sp_DeleteProject" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="AttendanceManagementModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_EmployeeViewAttendance" FunctionName="AttendanceManagementModel.Store.sp_EmployeeViewAttendance">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_EmployeeViewAttendance_Result">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="DateOfRequest" ColumnName="DateOfRequest" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="AttendanceStatus" ColumnName="AttendanceStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_EmployeeViewLeave" FunctionName="AttendanceManagementModel.Store.sp_EmployeeViewLeave">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_EmployeeViewLeave_Result">
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="DateOfRequest" ColumnName="DateOfRequest" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="TransactionStatus" ColumnName="TransactionStatus" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetDateForProject" FunctionName="AttendanceManagementModel.Store.sp_GetDateForProject">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_GetDateForProject_Result">
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetEmployeeDetails" FunctionName="AttendanceManagementModel.Store.sp_GetEmployeeDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_GetEmployeeDetails_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetEmployeeDetailsForProject" FunctionName="AttendanceManagementModel.Store.sp_GetEmployeeDetailsForProject">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_GetEmployeeDetailsForProject_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetEmployeeInfoByID" FunctionName="AttendanceManagementModel.Store.sp_GetEmployeeInfoByID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_GetEmployeeInfoByID_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetEmployeeName" FunctionName="AttendanceManagementModel.Store.sp_GetEmployeeName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_GetEmployeeName_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Employee_Name" ColumnName="Employee Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetLastRefreshedDate" FunctionName="AttendanceManagementModel.Store.sp_GetLastRefreshedDate" />
+          <FunctionImportMapping FunctionImportName="sp_GetManagerName" FunctionName="AttendanceManagementModel.Store.sp_GetManagerName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_GetManagerName_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetProjectName" FunctionName="AttendanceManagementModel.Store.sp_GetProjectName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_GetProjectName_Result">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetProjectOfEmployee" FunctionName="AttendanceManagementModel.Store.sp_GetProjectOfEmployee">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_GetProjectOfEmployee_Result">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetRemainingLeave" FunctionName="AttendanceManagementModel.Store.sp_GetRemainingLeave" />
+          <FunctionImportMapping FunctionImportName="sp_GetRole" FunctionName="AttendanceManagementModel.Store.sp_GetRole">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_GetRole_Result">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="AttendanceManagementModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="AttendanceManagementModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_login" FunctionName="AttendanceManagementModel.Store.sp_login" />
+          <FunctionImportMapping FunctionImportName="sp_ManagerViewPendingAttendanceRequest" FunctionName="AttendanceManagementModel.Store.sp_ManagerViewPendingAttendanceRequest">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_ManagerViewPendingAttendanceRequest_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ManagerViewPendingLeaveRequest" FunctionName="AttendanceManagementModel.Store.sp_ManagerViewPendingLeaveRequest">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_ManagerViewPendingLeaveRequest_Result">
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Employee_Name" ColumnName="Employee Name" />
+                <ScalarProperty Name="Date_of_Request" ColumnName="Date of Request" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End Date" />
+                <ScalarProperty Name="NoOfDays" ColumnName="NoOfDays" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_RemoveEmployeeFromAssignedProject" FunctionName="AttendanceManagementModel.Store.sp_RemoveEmployeeFromAssignedProject" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="AttendanceManagementModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_RequestLeave" FunctionName="AttendanceManagementModel.Store.sp_RequestLeave" />
+          <FunctionImportMapping FunctionImportName="sp_SearchEmployeeDetails" FunctionName="AttendanceManagementModel.Store.sp_SearchEmployeeDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_SearchEmployeeDetails_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_UpdateAttendance" FunctionName="AttendanceManagementModel.Store.sp_UpdateAttendance" />
+          <FunctionImportMapping FunctionImportName="sp_UpdateEmployee" FunctionName="AttendanceManagementModel.Store.sp_UpdateEmployee" />
+          <FunctionImportMapping FunctionImportName="sp_UpdateLeaveStatus" FunctionName="AttendanceManagementModel.Store.sp_UpdateLeaveStatus" />
+          <FunctionImportMapping FunctionImportName="sp_UpdateProject" FunctionName="AttendanceManagementModel.Store.sp_UpdateProject" />
+          <FunctionImportMapping FunctionImportName="sp_UpdateRequestLeave" FunctionName="AttendanceManagementModel.Store.sp_UpdateRequestLeave" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="AttendanceManagementModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="EmployeeDetails">
+            <EntityTypeMapping TypeName="AttendanceManagementModel.EmployeeDetail">
+              <MappingFragment StoreEntitySet="EmployeeDetails">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveTransactions">
+            <EntityTypeMapping TypeName="AttendanceManagementModel.LeaveTransaction">
+              <MappingFragment StoreEntitySet="LeaveTransaction">
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="TransactionStatus" ColumnName="TransactionStatus" />
+                <ScalarProperty Name="NoOfDays" ColumnName="NoOfDays" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="DateOfRequest" ColumnName="DateOfRequest" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectAttendances">
+            <EntityTypeMapping TypeName="AttendanceManagementModel.ProjectAttendance">
+              <MappingFragment StoreEntitySet="ProjectAttendance">
+                <ScalarProperty Name="AttendanceStatus" ColumnName="AttendanceStatus" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="DateOfAttendance" ColumnName="DateOfAttendance" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectDetails">
+            <EntityTypeMapping TypeName="AttendanceManagementModel.ProjectDetail">
+              <MappingFragment StoreEntitySet="ProjectDetails">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleDetails">
+            <EntityTypeMapping TypeName="AttendanceManagementModel.RoleDetail">
+              <MappingFragment StoreEntitySet="RoleDetails">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AttendanceManagementModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveDetails">
+            <EntityTypeMapping TypeName="AttendanceManagementModel.LeaveDetail">
+              <MappingFragment StoreEntitySet="LeaveDetails">
+                <ScalarProperty Name="LastRefreshedDate" ColumnName="LastRefreshedDate" />
+                <ScalarProperty Name="NumberOfLeaves" ColumnName="NumberOfLeaves" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoginCredentials">
+            <EntityTypeMapping TypeName="AttendanceManagementModel.LoginCredential">
+              <MappingFragment StoreEntitySet="LoginCredentials">
+                <ScalarProperty Name="LoginPassword" ColumnName="LoginPassword" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetDateForProject1" FunctionName="AttendanceManagementModel.Store.sp_GetDateForProject">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AttendanceManagementModel.sp_GetProjectOfEmployee_Result">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_IsAttendanceMarked" FunctionName="AttendanceManagementModel.Store.sp_IsAttendanceMarked" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

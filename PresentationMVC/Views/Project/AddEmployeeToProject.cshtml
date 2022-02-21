@@ -1,0 +1,95 @@
+﻿@model IEnumerable<DataLayer.EmployeeDetail>
+
+@{
+    ViewBag.Title = "Assign Employee To Project";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h2 class="col-md-4 col-xs-3">Assign Employee To Project</h2>
+
+<input id="searchBar" class="col-md-offset-2 col-md-2 col-xs-2" type="text" placeholder="Search" />
+
+<button id="searchBtn" type="button"
+        class="btn btn-primary action-button col-md-offset-1 col-md-2 col-xs-6">
+    Search
+</button>
+
+<table class="table">
+    <tr>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.EmployeeId)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.ContactNo)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.JobTitle)
+            </span>
+        </th>
+        <th class="col-auto"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="col-auto">
+                <span class="display-header">
+                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-header">
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-header">
+                    @Html.DisplayFor(modelItem => item.ContactNo)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-header">
+                    @Html.DisplayFor(modelItem => item.JobTitle)
+                </span>
+            </td>
+            <td class="col-auto">
+                <button type="button"
+                        class="btn btn-primary action-button col-md-2 col-xs-6"
+                        onclick='window.location = "@Url.Action("AssignEmployeeToProject","Project",new {id = item.EmployeeId, projectid = ViewBag.ProjectId})";'>
+                    Assign
+                </button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts {
+
+    <script>
+        $('#searchBtn').click(function () {
+            var searchText = $('#searchBar').val();
+            window.location = '@Url.Action("AddEmployeeToProject", "Project", new { id = @ViewBag.ProjectId})?search=' + searchText;
+        })
+
+    </script>
+
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert(@ViewBag.Message)
+            }
+        </script>
+    }
+}

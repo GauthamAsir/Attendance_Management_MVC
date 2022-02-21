@@ -1,0 +1,152 @@
+﻿@model IEnumerable<DataLayer.EmployeeDetail>
+
+@{
+    ViewBag.Title = "Employees List";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h2 class="col-md-2 col-xs-3">List of Employees</h2>
+
+<input id="searchBar" class="col-md-offset-2 col-md-2 col-xs-2" type="text" placeholder="Search" />
+
+<button id="searchBtn" type="button" style="margin-left: 12px"
+        class="btn btn-primary action-button col-md-offset-0 col-md-2 col-xs-6">
+    Search
+</button>
+
+<button type="button"
+        class="btn btn-primary action-button col-md-offset-2 col-md-2 col-xs-6"
+        onclick='window.location = "@Url.Action("AddEmployee", "Employee")";'>
+    Add Employee
+</button>
+
+<table class="table">
+    <tr>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.EmployeeId)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.LastName)
+            </span>
+        </th>
+        @*<th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </span>
+        </th>*@
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.ContactNo)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.Email)
+            </span>
+        </th>
+        @*<th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.JobTitle)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.ManagerId)
+            </span>
+        </th>
+        <th class="col-auto">
+            <span class="display-header">
+                @Html.DisplayNameFor(model => model.RoleId)
+            </span>
+        </th>*@
+        <th class="col-auto">
+            <span class="display-header">
+                Action
+            </span>
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </span>
+            </td>
+            @*<td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </span>
+            </td>*@
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.ContactNo)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.Email)
+                </span>
+            </td>
+            @*<td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.JobTitle)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.ManagerId)
+                </span>
+            </td>
+            <td class="col-auto">
+                <span class="display-content">
+                    @Html.DisplayFor(modelItem => item.RoleId)
+                </span>
+            </td>*@
+            <td class="col-auto">
+                <div class="dropdown">
+                    <button class="btn btn-default" data-toggle="dropdown">  More  <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li> @Html.ActionLink("Info", "GetEmployee", new { id = item.EmployeeId, token = @Session["token"], @class = "dropdown-item" }) </li>
+                        <li class="divider"></li>
+                        <li> @Html.ActionLink("Update Info", "UpdateEmployee", new { id = item.EmployeeId, token = @Session["token"], @class = "dropdown-item" }) </li>
+                        <li class="divider"></li>
+
+                        <li> @Html.ActionLink("Remove", "RemoveEmployee", new { id = item.EmployeeId, token = @Session["token"], @class = "dropdown-item" }) </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts {
+
+    <script>
+        $('#searchBtn').click(function () {
+            var searchText = $('#searchBar').val();
+            window.location = '@Url.Action("Index", "Employee")?search=' + searchText;
+        })
+    </script>
+
+}

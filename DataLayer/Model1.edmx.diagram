@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b96af0d61767402a89e4791a63a55d8a" Name="Diagram1">
+        <EntityTypeShape EntityType="AttendanceManagementModel.EmployeeDetail" Width="1.5" PointX="3" PointY="4.875" />
+        <EntityTypeShape EntityType="AttendanceManagementModel.LeaveTransaction" Width="1.5" PointX="5.25" PointY="10.875" />
+        <EntityTypeShape EntityType="AttendanceManagementModel.ProjectAttendance" Width="1.5" PointX="8.25" PointY="5.5" />
+        <EntityTypeShape EntityType="AttendanceManagementModel.ProjectDetail" Width="1.5" PointX="6" PointY="5.75" />
+        <EntityTypeShape EntityType="AttendanceManagementModel.RoleDetail" Width="1.5" PointX="0.75" PointY="6" />
+        <EntityTypeShape EntityType="AttendanceManagementModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AttendanceManagementModel.LeaveDetail" Width="1.5" PointX="5.25" PointY="2.875" />
+        <EntityTypeShape EntityType="AttendanceManagementModel.LoginCredential" Width="1.5" PointX="5.25" PointY="8.625" />
+        <AssociationConnector Association="AttendanceManagementModel.FK__EmployeeD__RoleI__276EDEB3" />
+        <AssociationConnector Association="AttendanceManagementModel.FK__LeaveDeta__Emplo__30F848ED" />
+        <AssociationConnector Association="AttendanceManagementModel.FK__LeaveTran__Emplo__3A81B327" />
+        <AssociationConnector Association="AttendanceManagementModel.FK__LoginCred__Emplo__32E0915F" />
+        <AssociationConnector Association="AttendanceManagementModel.FK__ProjectAt__Emplo__55009F39" />
+        <AssociationConnector Association="AttendanceManagementModel.FK__ProjectAt__Proje__55F4C372" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
